@@ -2,28 +2,6 @@
 
 Import pip requirements into Bazel.
 
-<a id="whl_library_alias"></a>
-
-## whl_library_alias
-
-<pre>
-whl_library_alias(<a href="#whl_library_alias-name">name</a>, <a href="#whl_library_alias-default_version">default_version</a>, <a href="#whl_library_alias-repo_mapping">repo_mapping</a>, <a href="#whl_library_alias-version_map">version_map</a>, <a href="#whl_library_alias-wheel_name">wheel_name</a>)
-</pre>
-
-
-
-**ATTRIBUTES**
-
-
-| Name  | Description | Type | Mandatory | Default |
-| :------------- | :------------- | :------------- | :------------- | :------------- |
-| <a id="whl_library_alias-name"></a>name |  A unique name for this repository.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
-| <a id="whl_library_alias-default_version"></a>default_version |  Optional Python version in major.minor format, e.g. '3.10'.The Python version of the wheel to use when the versions from `version_map` don't match. This allows the default (version unaware) rules to match and select a wheel. If not specified, then the default rules won't be able to resolve a wheel and an error will occur.   | String | optional |  `""`  |
-| <a id="whl_library_alias-repo_mapping"></a>repo_mapping |  A dictionary from local repository name to global repository name. This allows controls over workspace dependency resolution for dependencies of this repository.<p>For example, an entry `"@foo": "@bar"` declares that, for any time this repository depends on `@foo` (such as a dependency on `@foo//some:target`, it should actually resolve that dependency within globally-declared `@bar` (`@bar//some:target`).   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | required |  |
-| <a id="whl_library_alias-version_map"></a>version_map |  -   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | required |  |
-| <a id="whl_library_alias-wheel_name"></a>wheel_name |  -   | String | required |  |
-
-
 <a id="compile_pip_requirements"></a>
 
 ## compile_pip_requirements
@@ -58,8 +36,8 @@ be checked into it to ensure that all developers/users have the same dependency 
 | <a id="compile_pip_requirements-extra_args"></a>extra_args |  passed to pip-compile.   |  `[]` |
 | <a id="compile_pip_requirements-extra_deps"></a>extra_deps |  extra dependencies passed to pip-compile.   |  `[]` |
 | <a id="compile_pip_requirements-generate_hashes"></a>generate_hashes |  whether to put hashes in the requirements_txt file.   |  `True` |
-| <a id="compile_pip_requirements-py_binary"></a>py_binary |  the py_binary rule to be used.   |  `<function py_binary>` |
-| <a id="compile_pip_requirements-py_test"></a>py_test |  the py_test rule to be used.   |  `<function py_test>` |
+| <a id="compile_pip_requirements-py_binary"></a>py_binary |  the py_binary rule to be used.   |  `<function py_binary from //python:py_binary.bzl>` |
+| <a id="compile_pip_requirements-py_test"></a>py_test |  the py_test rule to be used.   |  `<function py_test from //python:py_test.bzl>` |
 | <a id="compile_pip_requirements-requirements_in"></a>requirements_in |  file expressing desired dependencies.   |  `None` |
 | <a id="compile_pip_requirements-requirements_txt"></a>requirements_txt |  result of "compiling" the requirements.in file.   |  `None` |
 | <a id="compile_pip_requirements-requirements_darwin"></a>requirements_darwin |  File of darwin specific resolve output to check validate if requirement.in has changes.   |  `None` |
@@ -269,5 +247,25 @@ See the example in rules_python/examples/pip_parse_vendored.
 | <a id="pip_parse-requirements_lock"></a>requirements_lock |  A fully resolved 'requirements.txt' pip requirement file containing the transitive set of your dependencies. If this file is passed instead of 'requirements' no resolve will take place and pip_repository will create individual repositories for each of your dependencies so that wheels are fetched/built only for the targets specified by 'build/run/test'. Note that if your lockfile is platform-dependent, you can use the `requirements_[platform]` attributes.   |  `None` |
 | <a id="pip_parse-name"></a>name |  The name of the generated repository. The generated repositories containing each requirement will be of the form `<name>_<requirement-name>`.   |  `"pip_parsed_deps"` |
 | <a id="pip_parse-kwargs"></a>kwargs |  Additional arguments to the [`pip_repository`](./pip_repository.md) repository rule.   |  none |
+
+
+<a id="whl_library_alias"></a>
+
+## whl_library_alias
+
+<pre>
+whl_library_alias(<a href="#whl_library_alias-name">name</a>, <a href="#whl_library_alias-default_version">default_version</a>, <a href="#whl_library_alias-repo_mapping">repo_mapping</a>, <a href="#whl_library_alias-version_map">version_map</a>, <a href="#whl_library_alias-wheel_name">wheel_name</a>)
+</pre>
+
+**ATTRIBUTES**
+
+
+| Name  | Description | Type | Mandatory | Default |
+| :------------- | :------------- | :------------- | :------------- | :------------- |
+| <a id="whl_library_alias-name"></a>name |  A unique name for this repository.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
+| <a id="whl_library_alias-default_version"></a>default_version |  Optional Python version in major.minor format, e.g. '3.10'.The Python version of the wheel to use when the versions from `version_map` don't match. This allows the default (version unaware) rules to match and select a wheel. If not specified, then the default rules won't be able to resolve a wheel and an error will occur.   | String | optional |  `""`  |
+| <a id="whl_library_alias-repo_mapping"></a>repo_mapping |  In `WORKSPACE` context only: a dictionary from local repository name to global repository name. This allows controls over workspace dependency resolution for dependencies of this repository.<br><br>For example, an entry `"@foo": "@bar"` declares that, for any time this repository depends on `@foo` (such as a dependency on `@foo//some:target`, it should actually resolve that dependency within globally-declared `@bar` (`@bar//some:target`).<br><br>This attribute is _not_ supported in `MODULE.bazel` context (when invoking a repository rule inside a module extension's implementation function).   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | optional |  |
+| <a id="whl_library_alias-version_map"></a>version_map |  -   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | required |  |
+| <a id="whl_library_alias-wheel_name"></a>wheel_name |  -   | String | required |  |
 
 

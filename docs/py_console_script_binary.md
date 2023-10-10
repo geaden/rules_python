@@ -79,7 +79,7 @@ Generate a py_binary for a console_script entry_point.
 | <a id="py_console_script_binary-pkg"></a>pkg |  target, the package for which to generate the script.   |  none |
 | <a id="py_console_script_binary-entry_points_txt"></a>entry_points_txt |  optional target, the entry_points.txt file to parse for available console_script values. It may be a single file, or a group of files, but must contain a file named `entry_points.txt`. If not specified, defaults to the `dist_info` target in the same package as the `pkg` Label.   |  `None` |
 | <a id="py_console_script_binary-script"></a>script |  str, The console script name that the py_binary is going to be generated for. Defaults to the normalized name attribute.   |  `None` |
-| <a id="py_console_script_binary-binary_rule"></a>binary_rule |  callable, The rule/macro to use to instantiate the target. It's expected to behave like `py_binary`. Defaults to @rules_python//python:py_binary.bzl#py_binary.   |  `<function py_binary>` |
+| <a id="py_console_script_binary-binary_rule"></a>binary_rule |  callable, The rule/macro to use to instantiate the target. It's expected to behave like `py_binary`. Defaults to @rules_python//python:py_binary.bzl#py_binary.   |  `<function py_binary from //python:py_binary.bzl>` |
 | <a id="py_console_script_binary-kwargs"></a>kwargs |  Extra parameters forwarded to binary_rule.   |  none |
 
 
